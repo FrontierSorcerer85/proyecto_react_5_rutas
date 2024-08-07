@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import {Redirect, Route} from "wouter";
+import {Redirect, Route, Switch} from "wouter";
 import Login from "./componentes/Login";
 import Alumnos from "./componentes/Alumnos";
 import './App.css'
@@ -16,23 +16,26 @@ export default class App extends Component {
     return(
       <>
         {/*header */}
+        <Switch>
         <Route path="/">
-          <Redirect to = "/login"/>
-        </Route>
+          <Redirect to = "/login"/></Route>
         <Route path="/login">
           <Login 
-            cambiarMenu= {(opcion) => this.setState({menu:opcion})}
-          />
+            />
           </Route>
-        <Route path="/alumnos">
-          <Alumnos 
-            cambiarMenu= {(opcion) => this.setState({menu:opcion})}
-          />
+        <Route path="/alumnos/:curso/:id/:materia">
+          {(params) => <Alumnos 
+            curso={params.curso} 
+            id={params.id}
+            mat={params.materia}
+          />}
           </Route>
+          <Route>404</Route>
+          </Switch>
         {/*footer */}
       </>
     )
   }
 }
 
-//si tenias el token valido
+//dos componentes, uno para registros y otro para listado de cursos, con sus respectivas rutas.
